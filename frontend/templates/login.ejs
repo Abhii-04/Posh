@@ -85,7 +85,7 @@
                         <div class="social-login">
                             <p>Or sign in with</p>
                             <div class="social-buttons">
-                                <button type="button" class="social-btn google">
+                                <button type="button" class="social-btn google" onclick="window.location.href='/login/google'">
                                     <i class="fab fa-google"></i>
                                     <span>Google</span>
                                 </button>
@@ -138,32 +138,7 @@
 
     <!-- LOGIN SCRIPT -->
     <script>
-        // Initialize Supabase client
-        const supabase = window.supabase.createClient(
-            "https://ifxubrjpqsufxkjsomin.supabase.co",
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlmeHVicmpwcXN1ZnhranNvbWluIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjA4OTgwNDUsImV4cCI6MjA3NjQ3NDA0NX0.4sXs9-JIJEwk7tnYaB8nIHQnlPYKIvzShqpWQFgqX2U"
-        );
-
-        const googleButton = document.querySelector('.social-btn.google');
-
-        // Handle Google login
-        if (googleButton) {
-            googleButton.addEventListener('click', async () => {
-                console.log('Google Sign-In clicked');
-                try {
-                    const { data, error } = await supabase.auth.signInWithOAuth({
-                        provider: 'google',
-                        options: {
-                            redirectTo: window.location.origin 
-                        }
-                    });
-                    if (error) throw error;
-                } catch (err) {
-                    console.error(err);
-                    alert('Error during Google login');
-                }
-            });
-        }
+        
 
         // Update current year in footer
         const yearSpan = document.querySelector('[data-current-year]');

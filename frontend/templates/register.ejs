@@ -11,62 +11,7 @@
   <link rel="stylesheet" href="../static/Styles/register.css" />
   <link rel="stylesheet" href="../static/Styles/footer.css" />
   <link rel="stylesheet" href="/static/Styles/navbar.css">
-  <style>
-    .container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 3rem 1rem 2rem;
-      width: 100%;
-    }
-
-    .form-wrapper {
-      width: 100%;
-      max-width: 28rem;
-      margin: 0 auto;
-    }
-
-    .google-btn {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      width: 100%;
-      background-color: #fff;
-      color: #444;
-      border: 1px solid #ccc;
-      padding: 0.75rem 1rem;
-      font-weight: 500;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: background-color 0.2s, transform 0.1s;
-      margin-top: 1rem;
-    }
-
-    .google-btn:hover {
-      background-color: #f5f5f5;
-      transform: translateY(-1px);
-    }
-
-    .google-btn img {
-      width: 20px;
-      height: 20px;
-    }
-
-    footer.footer {
-      width: 100%;
-      margin-top: 4rem;
-    }
-
-    @media (max-width: 640px) {
-      .container {
-        padding: 2rem 1rem;
-      }
-      footer.footer {
-        margin-top: 2.5rem;
-      }
-    }
-  </style>
+  
 </head>
 <body>
   <!-- Include the navbar partial -->
@@ -246,24 +191,7 @@
     const toast = document.getElementById('toast');
     const toastMessage = document.getElementById('toastMessage');
 
-    if (googleBtn) {
-        googleBtn.addEventListener('click', async () => {
-            console.log('Google Sign-In clicked');
-            try {
-                const { data, error } = await supabase.auth.signInWithOAuth({
-                    provider: 'google',
-                        options: {
-                            redirectTo: window.location.origin 
-                        }
-                    });
-                    if (error) throw error;
-                } catch (err) {
-                    console.error(err);
-                    alert('Error during Google login');
-                }
-            });
-        }
-
+    
     function showToast(message, isError = false) {
       toastMessage.textContent = message;
       toast.classList.add('show');
