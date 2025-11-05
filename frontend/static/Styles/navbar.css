@@ -1,0 +1,23 @@
+/* Navbar active link styling */
+.nav-link.active {
+    color: #d4af37; /* Gold color for active link */
+    font-weight: 600;
+    position: relative;
+}
+
+.nav-link.active::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: #d4af37;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .nav-link.active::after {
+        bottom: -2px;
+    }
+}

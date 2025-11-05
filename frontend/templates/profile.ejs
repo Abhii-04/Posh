@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profile | Elegance Perfumery</title>
+  <link rel="stylesheet" href="../static/Styles/profile.css">
+  <link rel="stylesheet" href="/static/Styles/navbar.css">
+  <link rel="stylesheet" href="/static/Styles/footer.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+<!-- Include the navbar partial -->
+<%- include('partials/navbar', {user, currentPage}) %>
+
+<!-- Scroll Progress Indicator -->
+<div class="scroll-progress" id="scrollProgress"></div>
+
+<!-- Back to Top Button -->
+<button class="back-to-top" id="backToTop">
+  <i class="fas fa-chevron-up"></i>
+</button>
+
+<!-- Hero Section -->
+<header class="profile-hero">
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="profile-avatar" id="profileAvatar">
+      <i class="fas fa-user-circle"></i>
+    </div>
+    <div class="profile-info">
+      <h1 class="profile-name" id="profileName"><%= user ? user.name : 'User' %></h1>
+      <p class="profile-email" id="profileEmail"><%= user ? user.email : 'user@email.com' %></p>
+      <div class="profile-stats">
+        <div class="stat">
+          <span class="stat-value" id="designCount">0</span>
+          <span class="stat-label">Designs</span>
+        </div>
+        <div class="stat">
+          <span class="stat-value" id="projectCount">0</span>
+          <span class="stat-label">Projects</span>
+        </div>
+        <div class="stat">
+          <span class="stat-value" id="memberSince">2025</span>
+          <span class="stat-label">Member Since</span>
+        </div>
+      </div>
+      <div class="profile-actions">
+        <button class="btn btn-primary" id="editProfileBtn">
+          <i class="fas fa-edit"></i> Edit Profile
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Profile Content -->
+<div class="profile-content">
+  <!-- Personal Information Section -->
+  <section class="profile-section">
+    <div class="section-header">
+      <h2><i class="fas fa-user"></i> Personal Information</h2>
+    </div>
+    <div class="info-grid">
+      <div class="info-card">
+        <div class="info-icon"><i class="fas fa-map-marker-alt"></i></div>
+        <div class="info-content">
+          <h3>Address</h3>
+          <p id="userAddress"><%= user && user.address ? user.address : 'Not provided' %></p>
+        </div>
+      </div>
+      <div class="info-card">
+        <div class="info-icon"><i class="fas fa-phone"></i></div>
+        <div class="info-content">
+          <h3>Phone</h3>
+          <p id="userPhone"><%= user && user.phone ? user.phone : 'Not provided' %></p>
+        </div>
+      </div>
+      <div class="info-card">
+        <div class="info-icon"><i class="fas fa-palette"></i></div>
+        <div class="info-content">
+          <h3>Design Style</h3>
+          <p id="designStyle">Not specified</p>
+        </div>
+      </div>
+      <div class="info-card">
+        <div class="info-icon"><i class="fas fa-calendar-alt"></i></div>
+        <div class="info-content">
+          <h3>Member Since</h3>
+          <p id="memberSinceFull">January 1, 2025</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects Section -->
+  <section class="profile-section">
+    <div class="section-header">
+      <h2><i class="fas fa-folder"></i> Your Projects</h2>
+      <button class="btn btn-secondary" id="newProjectBtn">
+        <i class="fas fa-plus"></i> New Project
+      </button>
+    </div>
+    <div id="projectsContainer" class="projects-grid">
+      <!-- Projects will be inserted here by JS -->
+    </div>
+  </section>
+
+  <!-- Recent Designs Section -->
+  <section class="profile-section">
+    <div class="section-header">
+      <h2><i class="fas fa-images"></i> Recent Designs</h2>
+      <button class="btn btn-secondary" id="uploadDesignBtn">
+        <i class="fas fa-upload"></i> Upload Design
+      </button>
+    </div>
+    <div id="designsContainer" class="designs-grid">
+      <!-- Designs will be inserted here by JS -->
+    </div>
+  </section>
+</div>
+
+<!-- Image Preview Modal -->
+<div id="imageModal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3>Design Preview</h3>
+      <button class="close-modal" onclick="closeImageModal()">&times;</button>
+    </div>
+    <div class="modal-body">
+      <img id="modalImage" src="" alt="Design Preview">
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="footer-container">
+    <div class="footer-brand">
+      <a href="/" class="footer-logo">
+        <span class="footer-logo-title">Elegance</span>
+        <span class="footer-logo-subtitle">Perfumery</span>
+      </a>
+      <p class="footer-description">
+        Curating timeless fragrances crafted with the finest ingredients for truly memorable experiences.
+      </p>
+    </div>
+
+    <nav class="footer-nav">
+      <a href="/">Home</a>
+      <a href="/about">About</a>
+      <a href="/contact">Contact</a>
+      <a href="/product">Collection</a>
+    </nav>
+
+    <div class="footer-contact">
+      <h3>Contact</h3>
+      <p>Email: <a href="mailto:contact@elegance-perfumery.in">contact@elegance-perfumery.in</a></p>
+      <p>Phone: <a href="tel:+912226404465">+91 22 2640 4465</a></p>
+      <p>Mon - Sat: 10:00 AM - 8:00 PM</p>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p>© <span data-current-year></span> Elegance Perfumery. All rights reserved.</p>
+    <p class="footer-made-by">Crafted with care in Mumbai, India.</p>
+  </div>
+</footer>
+
+<script src="static/javascript/profile.js"></script>
+<script>
+// Dummy example data (you can replace this with data from your database or API)
+const user = {
+  username: "<%= user ? user.name : 'User' %>",
+  email: "<%= user ? user.email : 'user@email.com' %>",
+  phone: "<%= user && user.phone ? user.phone : 'Not provided' %>",
+  address: "<%= user && user.address ? user.address : 'Not provided' %>",
+  design_style: "Modern Minimalist",
+  created_at: "2025-03-15",
+  designs: [
+    { filename: "livingroom.jpg", upload_date: "2025-04-01", design_notes: "Living room concept" }
+  ],
+  projects: [
+    { title: "Luxury Apartment", description: "High-end interior design project", budget: 50000, status: "active", created_at: "2025-02-10" }
+  ]
+};
+
+// Inject user data dynamically
+document.getElementById("profileName").textContent = user.username;
+document.getElementById("profileEmail").textContent = user.email;
+document.getElementById("userPhone").textContent = user.phone;
+document.getElementById("userAddress").textContent = user.address;
+document.getElementById("designStyle").textContent = user.design_style;
+document.getElementById("memberSince").textContent = new Date(user.created_at).getFullYear();
+document.getElementById("memberSinceFull").textContent = new Date(user.created_at).toLocaleDateString();
+
+// Projects
+const projectsContainer = document.getElementById("projectsContainer");
+if (user.projects.length > 0) {
+  user.projects.forEach(p => {
+    const card = document.createElement("div");
+    card.classList.add("project-card");
+    card.innerHTML = `
+      <div class="project-header">
+        <h3>${p.title}</h3>
+        <span class="project-status ${p.status}">${p.status}</span>
+      </div>
+      <p class="project-description">${p.description}</p>
+      <div class="project-footer">
+        <div class="project-meta">
+          <span class="project-budget"><i class="fas fa-dollar-sign"></i> ${p.budget}</span>
+          <span class="project-date"><i class="fas fa-calendar"></i> ${new Date(p.created_at).toLocaleDateString()}</span>
+        </div>
+      </div>
+    `;
+    projectsContainer.appendChild(card);
+  });
+} else {
+  projectsContainer.innerHTML = `<p>No projects yet.</p>`;
+}
+
+// Designs
+const designsContainer = document.getElementById("designsContainer");
+if (user.designs.length > 0) {
+  user.designs.forEach(d => {
+    const designCard = document.createElement("div");
+    designCard.classList.add("design-card");
+    designCard.innerHTML = `
+      <div class="design-image" onclick="viewDesign('static/uploads/${d.filename}')">
+        <img src="static/uploads/${d.filename}" alt="${d.filename}">
+        <div class="design-overlay"><i class="fas fa-eye"></i></div>
+      </div>
+      <div class="design-info">
+        <p class="design-date">${new Date(d.upload_date).toLocaleDateString()}</p>
+        <p class="design-notes">${d.design_notes}</p>
+      </div>
+    `;
+    designsContainer.appendChild(designCard);
+  });
+} else {
+  designsContainer.innerHTML = `<p>No designs uploaded yet.</p>`;
+}
+
+function viewDesign(url) {
+  const modal = document.getElementById("imageModal");
+  const modalImage = document.getElementById("modalImage");
+  modalImage.src = url;
+  modal.style.display = "block";
+}
+function closeImageModal() {
+  document.getElementById("imageModal").style.display = "none";
+}
+
+// Set current year in footer
+document.querySelector('[data-current-year]').textContent = new Date().getFullYear();
+
+// Mobile menu toggle
+function toggleMenu() {
+  const nav = document.getElementById('primaryNav');
+  nav.classList.toggle('active');
+}
+
+// Edit profile button
+document.getElementById('editProfileBtn').addEventListener('click', function() {
+  window.location.href = '/edit_profile';
+});
+</script>
+
+</body>
+</html>
