@@ -37,17 +37,22 @@ router.get('/contact',(req,res)=>{
     }
 });
 
-router.get('/collection',(req,res)=>{
+router.get('/product',(req,res)=>{
     try{
-        res.render('collection',{
+        res.render('product',{
             user:req.session?.user||null,
-            currentPage:'collection'
+            currentPage:'product'
         });
     }catch(err){
         console.log(err);
-        res.status(500).send('Error loading products');
+        res.status(500).send('Error loading product page');
     }
 });
+
+// router.get('/index.html', (req, res) => {
+//   res.redirect('/');
+// });
+
 
 router.route('/profile')
     .get((req,res)=>{

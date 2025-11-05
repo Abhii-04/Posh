@@ -7,15 +7,20 @@ function loadProducts() {
   const productsGrid = document.getElementById('productsGrid');
   if (!productsGrid) return;
 
-  productsGrid.innerHTML = products.map(product => `
+  productsGrid.innerHTML = products
+    .map(
+      (product) => `
     <div class="product-card" onclick="viewProduct('${product.id}')">
       <div class="product-image-container">
         <img src="${product.image}" alt="${product.name}" class="product-image">
         <div class="product-overlay"></div>
         <button class="product-view-btn" onclick="event.stopPropagation(); viewProduct('${product.id}')">
           <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7
+                 -1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
           </svg>
           View Details
         </button>
@@ -26,7 +31,7 @@ function loadProducts() {
         <p class="product-description">${product.description}</p>
 
         <div class="product-notes">
-          ${product.notes.slice(0, 3).map(note => `<span class="product-note">${note}</span>`).join('')}
+          ${product.notes.slice(0, 3).map((note) => `<span class="product-note">${note}</span>`).join('')}
         </div>
 
         <div class="product-footer">
@@ -37,14 +42,19 @@ function loadProducts() {
 
           <button class="add-to-cart-btn" onclick="event.stopPropagation(); addToCart('${product.id}')">
             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.8 5.2M7 13l-1.8 5.2m0 0h9.6m-9.6 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm9.6 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4z"></path>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13
+                   m0 0l-1.8 5.2M7 13l-1.8 5.2m0 0h9.6
+                   m-9.6 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm9.6 0
+                   a2 2 0 1 0 0 4 2 2 0 0 0 0-4z"></path>
             </svg>
             Add to Cart
           </button>
         </div>
       </div>
-    </div>
-  `).join('');
+    </div>`
+    )
+    .join('');
 }
 
 // Load product detail page
@@ -56,25 +66,24 @@ function loadProductDetail() {
   const productId = urlParams.get('id');
 
   if (!productId) {
-    window.location.href = 'index.html';
+    // ✅ Redirect correctly to home route
+    window.location.href = '/';
     return;
   }
 
-  const product = products.find(p => p.id === productId);
+  const product = products.find((p) => p.id === productId);
   if (!product) {
-    window.location.href = 'index.html';
+    // ✅ Redirect to collection route instead of HTML file
+    window.location.href = '/collection';
     return;
   }
 
   // Update breadcrumb
   const breadcrumb = document.getElementById('productBreadcrumb');
-  if (breadcrumb) {
-    breadcrumb.textContent = product.name;
-  }
+  if (breadcrumb) breadcrumb.textContent = product.name;
 
   // Update page title and meta
   document.title = `${product.name} - Elegance Perfumery`;
-
   const metaDescription = document.querySelector('meta[name="description"]');
   if (metaDescription) {
     metaDescription.content = `${product.description} Price: ₹${product.price.toLocaleString()} for ${product.size}.`;
@@ -91,9 +100,7 @@ function loadProductDetail() {
         <p class="product-detail-price">₹${product.price.toLocaleString()}</p>
 
         <div class="product-rating">
-          <div class="rating-stars">
-            ${generateStars(product.rating)}
-          </div>
+          <div class="rating-stars">${generateStars(product.rating)}</div>
           <span class="rating-text">${product.rating} (${product.reviews} reviews)</span>
         </div>
 
@@ -102,33 +109,26 @@ function loadProductDetail() {
         <div class="product-detail-notes">
           <h3 class="notes-title">Fragrance Notes</h3>
           <div class="notes-list">
-            ${product.notes.map(note => `<span class="note-tag">${note}</span>`).join('')}
+            ${product.notes.map((note) => `<span class="note-tag">${note}</span>`).join('')}
           </div>
         </div>
 
         <div class="product-detail-info-grid">
-          <div class="info-item">
-            <h4>Size</h4>
-            <p>${product.size}</p>
-          </div>
-          <div class="info-item">
-            <h4>Concentration</h4>
-            <p>Eau de Parfum</p>
-          </div>
-          <div class="info-item">
-            <h4>Longevity</h4>
-            <p>6-8 hours</p>
-          </div>
-          <div class="info-item">
-            <h4>Sillage</h4>
-            <p>Moderate</p>
-          </div>
+          <div class="info-item"><h4>Size</h4><p>${product.size}</p></div>
+          <div class="info-item"><h4>Concentration</h4><p>Eau de Parfum</p></div>
+          <div class="info-item"><h4>Longevity</h4><p>6–8 hours</p></div>
+          <div class="info-item"><h4>Sillage</h4><p>Moderate</p></div>
         </div>
 
         <div class="product-detail-actions">
           <button class="detail-add-to-cart" onclick="addToCart('${product.id}')">
             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.8 5.2M7 13l-1.8 5.2m0 0h9.6m-9.6 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm9.6 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4z"></path>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M3 3h2l.4 2M7 13h10l4-8H5.4
+                   m0 0L7 13m0 0l-1.8 5.2M7 13l-1.8 5.2
+                   m0 0h9.6m-9.6 0a2 2 0 1 0 0 4
+                   2 2 0 0 0 0-4zm9.6 0a2 2 0 1 0
+                   0 4 2 2 0 0 0 0-4z"></path>
             </svg>
             Add to Cart
           </button>
@@ -140,5 +140,6 @@ function loadProductDetail() {
 
 // View product details
 function viewProduct(productId) {
-  window.location.href = `product.html?id=${productId}`;
+  // ✅ Correct redirect for EJS route
+  window.location.href = `/product?id=${productId}`;
 }

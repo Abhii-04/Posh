@@ -6,7 +6,7 @@
   <title>Product | Elegance Perfumery</title>
   <meta
     name="description"
-    content="Discover the details of our luxury perfume collection. Premium ingredients, exquisite craftsmanship, and unforgettable fragrances."
+    content="Discover details of our luxury perfume collection — premium ingredients, exquisite craftsmanship, and unforgettable fragrances."
   />
   <link rel="canonical" href="/product" />
   <link rel="icon" href="/favicon.ico" />
@@ -20,14 +20,14 @@
 </head>
 
 <body>
-  <!-- Include the navbar partial -->
-  <%- include('partials/navbar', {user, currentPage}) %>
+  <!-- Navbar -->
+  <%- include('partials/navbar', { user, currentPage }) %>
 
   <main>
     <!-- Breadcrumb -->
     <section class="breadcrumb">
       <div class="breadcrumb-container">
-        <a href="/" class="breadcrumb-link">Collection</a>
+        <a href="/collection" class="breadcrumb-link">Collection</a>
         <span class="breadcrumb-separator">/</span>
         <span class="breadcrumb-current" id="productBreadcrumb">Product Details</span>
       </div>
@@ -35,7 +35,7 @@
 
     <!-- Product Details -->
     <section class="product-details" id="productDetails">
-      <!-- Product content will be loaded here by JavaScript -->
+      <!-- Product data will be injected via JS -->
     </section>
   </main>
 
@@ -103,7 +103,8 @@
         <a href="/">Home</a>
         <a href="/about">About</a>
         <a href="/contact">Contact</a>
-        <a href="/product">Collection</a>
+        <!-- ✅ Fixed: Correct link name -->
+        <a href="/collection">Collection</a>
       </nav>
 
       <div class="footer-contact">
@@ -123,25 +124,29 @@
   <script>
     // Set current year in footer
     document.querySelector('[data-current-year]').textContent = new Date().getFullYear();
-    
-    // Handle missing/invalid product id gracefully
+
+    // Load single product details dynamically
     (function () {
       const params = new URLSearchParams(window.location.search);
       const id = params.get("id");
       const container = document.getElementById("productDetails");
+
       if (!id) {
         container.innerHTML = '<div class="product-error">Product not found.</div>';
         return;
       }
 
-      // Example fetch from backend
       fetch(`/api/products/${id}`)
-        .then((res) => res.json())
+        .then((res) => {
+          if (!res.ok) throw new Error("Product not found");
+          return res.json();
+        })
         .then((data) => {
           if (!data) {
             container.innerHTML = '<div class="product-error">Product not found.</div>';
             return;
           }
+
           container.innerHTML = `
             <div class="product-card">
               <img src="${data.image}" alt="${data.name}" class="product-img">
@@ -151,45 +156,45 @@
                 <p class="product-price">₹${data.price}</p>
                 <button onclick="addToCart(${data.id})">Add to Cart</button>
               </div>
-            </div>`;
+            </div>
+          `;
         })
         .catch(() => {
           container.innerHTML = '<div class="product-error">Error loading product.</div>';
         });
     })();
 
-    // Mobile menu toggle
+    // Navbar menu toggle
     function toggleMenu() {
       const nav = document.getElementById('primaryNav');
       nav.classList.toggle('active');
     }
-    
+
     // Cart functions
     function toggleCart() {
       document.getElementById('cartSidebar').classList.toggle('open');
       document.getElementById('cartOverlay').classList.toggle('visible');
     }
-    
+
     function closeCart() {
       document.getElementById('cartSidebar').classList.remove('open');
       document.getElementById('cartOverlay').classList.remove('visible');
     }
-    
+
     function addToCart(productId) {
-      // Implementation would go here
       const toast = document.getElementById('toast');
       const toastMessage = document.getElementById('toastMessage');
       toastMessage.textContent = 'Product added to cart!';
       toast.classList.add('show');
       setTimeout(() => toast.classList.remove('show'), 3000);
     }
-    
+
     function checkout() {
-      // Implementation would go here
       alert('Checkout functionality will be implemented soon!');
     }
   </script>
 
+  <!-- Static scripts -->
   <script src="/static/Scripts/data.js"></script>
   <script src="/static/Scripts/utils.js"></script>
   <script src="/static/Scripts/cart.js"></script>
