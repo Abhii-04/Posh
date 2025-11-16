@@ -1,11 +1,6 @@
-import express from "express";
-import bcrypt from "bcrypt";
 import supabase from "../config/supabase.js";
 
 // -------------------- REGISTER --------------------
-
-
-
 export const register = async (req, res) => {
   try {
     const { name, email, password, phone, address } = req.body;
@@ -13,42 +8,38 @@ export const register = async (req, res) => {
     if (!name || !email || !password) {
       return res
         .status(400)
-        .json({ error: "Name, email, and password are required." });
+        .render("register", { error: "Name, email, and password are required." });
     }
 
-    // Clean phone number
     let phoneValue = null;
     if (phone) {
       const numericPhone = phone.toString().replace(/\D/g, "");
       if (!numericPhone) {
-        return res.status(400).json({ error: "Invalid phone number" });
+        return res.status(400).render("register", { error: "Invalid phone number" });
       }
       phoneValue = numericPhone;
     }
 
-    // Supabase signup (handles email verification)
-    const { data, error } = await supabase.auth.signUp({
+    const { error } = await supabase.auth.signUp({
       email,
       password,
-      options: { data: { name, phone: phoneValue, address } },
+      options: {
+        data: { name, phone: phoneValue, address },
+      },
     });
 
     if (error) {
-      console.error("Supabase signup error:", error);
       return res.status(400).render("register", { error: error.message });
     }
-    const userloggedin=true;
-    // Redirect to login with message
-    res.redirect("/login?msg=verify");
+
+    return res.redirect("/login?msg=verify");
   } catch (err) {
-    console.error("Register error:", err);
-    res.status(500).render("register", { error: "Internal server error" });
+    console.error(err);
+    return res.status(500).render("register", { error: "Internal server error" });
   }
 };
 
-
-
-// -------------------- LOGIN --------------------
+// -------------------- LOGIN (EMAIL + PASSWORD) --------------------
 export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -59,84 +50,90 @@ export const login = async (req, res) => {
     });
 
     if (error) {
-      console.error("Supabase login error:", error);
       return res.status(400).render("login", { error: "Invalid credentials" });
     }
 
-    const user = data.user;
+    const { user, session } = data;
+    if (!user || !session) {
+      return res
+        .status(400)
+        .render("login", { error: "Login failed. Try again." });
+    }
 
     req.session.user = {
       id: user.id,
       email: user.email,
-      name: user.user_metadata?.name || "User",
+      name: user.user_metadata?.full_name || user.user_metadata?.name || "User",
       phone: user.user_metadata?.phone || null,
       address: user.user_metadata?.address || null,
     };
-    const userloggedin=true;
 
-    req.session.save((saveErr) => {
-      if (saveErr) {
-        console.error("Session save error:", saveErr);
-      }
-      res.redirect("/");
-    });
+    req.session.tokens = {
+      access_token: session.access_token,
+      refresh_token: session.refresh_token,
+    };
+
+    req.session.save(() => res.redirect("/profile"));
   } catch (err) {
-    console.error("Login error:", err);
-    res.status(500).render("login", { error: "Login failed" });
+    console.error(err);
+    return res.status(500).render("login", { error: "Login failed" });
   }
 };
- 
 
-
-// -------------------- OAUTH CALLBACK --------------------
+// -------------------- OAUTH CALLBACK (PKCE) --------------------
 export const oauthcallback = async (req, res) => {
   try {
-    const { access_token } = req.query;
+    const fullUrl = `${req.protocol}://${req.get("host")}${req.originalUrl}`;
+    console.log("OAuth callback hit:", fullUrl);
 
-    if (!access_token) {
-      return res.status(400).json({ message: "Access token missing" });
+    const { data, error } = await supabase.auth.exchangeCodeForSession(fullUrl);
+
+    if (error) {
+      console.error("OAuth code exchange error:", error);
+      return res.redirect("/login?error=oauth_failed");
     }
 
-    const { data, error } = await supabase.auth.getUser(access_token);
-
-    if (error || !data?.user) {
-      console.error("OAuth error:", error);
-      return res.status(400).json({ message: "OAuth failed" });
+    const { user, session } = data;
+    if (!user || !session) {
+      console.error("OAuth user/session missing:", data);
+      return res.redirect("/login?error=oauth_failed");
     }
 
-    const user = data.user;
-
-    // ✅ Store in session
     req.session.user = {
       id: user.id,
       email: user.email,
-      name: user.user_metadata?.full_name || "Google User",
+      name:
+        user.user_metadata?.full_name ||
+        user.user_metadata?.name ||
+        "Google User",
+      phone: user.user_metadata?.phone || null,
+      address: user.user_metadata?.address || null,
     };
-    const userloggedin=true;
 
-    res.redirect("/");
+    req.session.tokens = {
+      access_token: session.access_token,
+      refresh_token: session.refresh_token,
+    };
+
+    req.session.save(() => res.redirect("/"));
   } catch (err) {
     console.error("OAuth callback error:", err);
-    res.status(500).json({ message: "OAuth failed" });
+    return res.redirect("/login?error=oauth_failed");
   }
 };
-
-
 
 // -------------------- LOGOUT --------------------
 export const logout = async (req, res) => {
   try {
-    await supabase.auth.signOut();
+    try {
+      await supabase.auth.signOut();
+    } catch (supErr) {
+      console.warn("Supabase signOut warning:", supErr.message);
+    }
 
-    req.session.destroy((err) => {
-      if (err) {
-        console.error("Session destruction error:", err);
-      }
-      const userloggedin=false;
-      res.redirect("/");
-    });
+    req.session.destroy(() => res.redirect("/"));
   } catch (err) {
     console.error("Logout error:", err);
-    res.status(500).json({ error: "Logout failed" });
+    return res.status(500).json({ error: "Logout failed" });
   }
 };

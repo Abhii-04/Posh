@@ -5,7 +5,6 @@ import morgan from 'morgan';
 import session from 'express-session';
 import pagerouter from './routes/pageroutes.js';
 import authrouter from './routes/authroutes.js';
-// import authlogger from './middleware/authlogger.js';
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
 import ejs from 'ejs';
@@ -27,10 +26,13 @@ app.use(
     secret: process.env.SESSION_SECRET_KEY,
     resave: false,
     saveUninitialized: false,
-    cookie: { secure: false }, // set true in production with HTTPS
+    cookie: {
+      secure: false, // set true in production with HTTPS + app.set('trust proxy', 1)
+      httpOnly: true,
+      sameSite: 'lax',
+    },
   })
 );
-
 
 // ------------------- Middleware -------------------
 app.use(morgan('tiny'));
@@ -38,16 +40,15 @@ app.use(express.static(path.join(__dirname, '../frontend')));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-
+// Make user available in all EJS views
 app.use((req, res, next) => {
   res.locals.user = req.session.user || null;
   next();
 });
 
-
 // ------------------- Routes -------------------
-app.use('/', pagerouter, authrouter);
-
+app.use('/', pagerouter);
+app.use('/', authrouter);
 
 // ------------------- Start Server -------------------
 const port = process.env.PORT || 5000;
