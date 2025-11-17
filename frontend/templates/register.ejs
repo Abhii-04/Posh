@@ -11,8 +11,8 @@
   <link rel="stylesheet" href="../static/Styles/register.css" />
   <link rel="stylesheet" href="../static/Styles/footer.css" />
   <link rel="stylesheet" href="/static/Styles/navbar.css">
-  
 </head>
+
 <body>
   <!-- Include the navbar partial -->
   <%- include('partials/navbar', {user, currentPage}) %>
@@ -34,6 +34,7 @@
       <!-- Form -->
       <form id="registerForm" class="form">
         <div class="form-card">
+
           <div class="form-group">
             <label for="name" class="label">Full Name</label>
             <div class="input-wrapper">
@@ -134,6 +135,7 @@
             <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google Logo">
             Continue with Google
           </button>
+
         </div>
       </form>
     </div>
@@ -182,16 +184,11 @@
   </script>
 
   <script>
-    const supabase = window.supabase.createClient(
-      "https://ifxubrjpqsufxkjsomin.supabase.co",
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlmeHVicmpwcXN1ZnhranNvbWluIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjA4OTgwNDUsImV4cCI6MjA3NjQ3NDA0NX0.4sXs9-JIJEwk7tnYaB8nIHQnlPYKIvzShqpWQFgqX2U"
-    );
     const googleBtn = document.getElementById('googleSignInBtn');
     const form = document.getElementById('registerForm');
     const toast = document.getElementById('toast');
     const toastMessage = document.getElementById('toastMessage');
 
-    
     function showToast(message, isError = false) {
       toastMessage.textContent = message;
       toast.classList.add('show');
@@ -199,18 +196,9 @@
       setTimeout(() => toast.classList.remove('show'), 3000);
     }
 
-    function updateNavbar() {
-      const nav = document.querySelector('.nav');
-      if (nav) {
-        nav.innerHTML = `
-          <a href="/" class="nav-link">Collection</a>
-          <a href="/about" class="nav-link">About Us</a>
-          <a href="/contact" class="nav-link">Contact</a>
-          <a href="/profile" class="nav-link">Profile</a>
-          <a href="/logout" class="nav-link">Logout</a>
-        `;
-      }
-    }
+    googleBtn.addEventListener('click', () => {
+      window.location.href = "/register/google";   // Google OAuth handled by backend
+    });
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -232,14 +220,16 @@
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(formData)
         });
+
         const data = await res.json();
         if (!res.ok) throw new Error(data.error || 'Registration failed');
         showToast('Account created successfully!');
         form.reset();
-        updateNavbar();
+
         setTimeout(() => {
-          window.location.href = '/';
-        }, 500);
+          window.location.href = '/login';
+        }, 800);
+
       } catch (error) {
         showToast('Registration failed. Please try again.', true);
       } finally {
@@ -247,12 +237,6 @@
         btn.innerHTML = '<span>Create Account</span><svg class="btn-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>';
       }
     });
-
-    // Mobile menu toggle
-    function toggleMenu() {
-      const nav = document.getElementById('primaryNav');
-      nav.classList.toggle('active');
-    }
   </script>
 </body>
 </html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Email Verification | Elegance Perfumery</title>
+  <link rel="stylesheet" href="/static/Styles/login.css">
+</head>
+<body>
+  <%- include('partials/navbar') %>
+
+  <main class="verify-container">
+    <h1>Verify Your Email</h1>
+    <p>We sent a 6-digit code to <strong><%= email %></strong></p>
+
+    <% if (error) { %>
+      <p class="error"><%= error %></p>
+    <% } %>
+
+    <form action="/verify-email" method="POST" class="verify-form">
+      <input type="text" name="otp" maxlength="6" minlength="6"
+        placeholder="Enter 6-digit code" required class="otp-input">
+      <button type="submit" class="verify-btn">Verify</button>
+    </form>
+
+    <form action="/resend-otp" method="POST">
+      <button type="submit" class="resend-btn">Resend Code</button>
+    </form>
+  </main>
+
+  <script>
+    document.querySelector('[data-current-year]').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

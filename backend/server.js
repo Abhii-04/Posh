@@ -13,12 +13,7 @@ dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-
 const app = express();
-
-// Set up EJS as the view engine
-app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, '../frontend/templates'));
 
 // ------------------- Session Setup -------------------
 app.use(
@@ -27,12 +22,16 @@ app.use(
     resave: false,
     saveUninitialized: false,
     cookie: {
-      secure: false, // set true in production with HTTPS + app.set('trust proxy', 1)
+      secure: false,
       httpOnly: true,
       sameSite: 'lax',
     },
   })
 );
+
+// ------------------- EJS Setup -------------------
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, '../frontend/templates'));
 
 // ------------------- Middleware -------------------
 app.use(morgan('tiny'));
@@ -40,7 +39,7 @@ app.use(express.static(path.join(__dirname, '../frontend')));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Make user available in all EJS views
+// Make session user available in all views
 app.use((req, res, next) => {
   res.locals.user = req.session.user || null;
   next();
@@ -52,6 +51,4 @@ app.use('/', authrouter);
 
 // ------------------- Start Server -------------------
 const port = process.env.PORT || 5000;
-app.listen(port, () => {
-  console.log(`✅ Server running on port ${port}`);
-});
+app.listen(port, () => console.log(`🚀 Server running on port ${port}`));

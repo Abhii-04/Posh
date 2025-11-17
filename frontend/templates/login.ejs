@@ -48,6 +48,7 @@
                     </ul>
                     <a href="/register" class="login-link">Create a new account</a>
                 </div>
+
                 <div class="login-right">
                     <form id="loginForm" class="login-form" method="POST" action="/login">
                         <div class="form-header">
@@ -81,16 +82,6 @@
                             <span>Sign In</span>
                             <i class="fas fa-arrow-right"></i>
                         </button>
-
-                        <div class="social-login">
-                            <p>Or sign in with</p>
-                            <div class="social-buttons">
-                                <button type="button" class="social-btn google" onclick="window.location.href='/login/google'">
-                                    <i class="fab fa-google"></i>
-                                    <span>Google</span>
-                                </button>
-                            </div>
-                        </div>
 
                         <p class="form-switch">New to Elegance? <a href="/register">Create your account</a></p>
                     </form>
@@ -133,13 +124,8 @@
         </div>
     </footer>
 
-    <!-- Supabase JS Client -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
     <!-- LOGIN SCRIPT -->
     <script>
-        
-
         // Update current year in footer
         const yearSpan = document.querySelector('[data-current-year]');
         if (yearSpan) yearSpan.textContent = new Date().getFullYear();
