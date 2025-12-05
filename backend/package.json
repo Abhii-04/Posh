@@ -17,12 +17,16 @@
     "node-fetch": "^3.3.2",
     "passport": "^0.7.0",
     "passport-google-oauth2": "^0.2.0",
-    "passport-google-oauth20": "^2.0.0"
+    "passport-google-oauth20": "^2.0.0",
+    "serverless-http": "^4.0.0"
   },
-  "scripts": {
-    "start": "node server.js",
-    "dev": "nodemon server.js"
-  },
+"scripts": {
+  "start": "node backend/local-server.js",      
+  "dev": "nodemon backend/local-server.js",    
+  "vercel:dev": "vercel dev",                  
+  "start:prod": "node server.js"               
+}
+,
   "devDependencies": {
     "nodemon": "^3.1.10"
   }
