@@ -1,0 +1,125 @@
+/* footer.css */
+
+/* Footer Container */
+.footer {
+    background-color: #111;
+    color: #eee;
+    font-family: 'Inter', sans-serif;
+    padding: 60px 20px 30px;
+}
+
+.footer-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Brand Section */
+.footer-brand {
+    flex: 1 1 250px;
+}
+
+.footer-logo {
+    text-decoration: none;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+}
+
+.footer-logo-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.footer-logo-subtitle {
+    font-size: 16px;
+    font-weight: 400;
+    color: #ccc;
+}
+
+.footer-description {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #bbb;
+}
+
+/* Footer Navigation */
+.footer-nav {
+    flex: 1 1 150px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.footer-nav a {
+    color: #eee;
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.3s ease;
+}
+
+.footer-nav a:hover {
+    color: #f5c518;
+}
+
+/* Contact Section */
+.footer-contact {
+    flex: 1 1 200px;
+    font-size: 14px;
+}
+
+.footer-contact h3 {
+    margin-bottom: 10px;
+    font-weight: 500;
+}
+
+.footer-contact a {
+    color: #eee;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-contact a:hover {
+    color: #f5c518;
+}
+
+/* Social Section */
+.footer-social {
+    flex: 1 1 150px;
+}
+
+.footer-social h3 {
+    margin-bottom: 10px;
+    font-weight: 500;
+}
+
+.footer-social ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-social li {
+    margin-bottom: 8px;
+}
+
+.footer-social a {
+    color: #eee;
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.3s ease;
+}
+
+.footer-social a:hover {
+    color: #f5c518;
+}
+
+/* Footer Bottom */
+.footer-bottom {
+    text-align: ce
+}

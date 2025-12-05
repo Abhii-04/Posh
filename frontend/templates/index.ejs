@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elegance Perfumery - Luxury Fragrances Collection</title>
+    <meta name="description" content="Discover our exclusive collection of luxury perfumes crafted with premium ingredients. From elegant florals to sophisticated woody scents.">
+    <link rel="canonical" href="/">
+    <link rel="icon" href="/favicon.ico">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../static/Styles/style.css">
+    <link rel="stylesheet" href="../static/Styles/footer.css">
+    <link rel="stylesheet" href="/static/Styles/navbar.css">
+</head>
+<body>
+    <!-- Navbar Include -->
+    <%- include('partials/navbar', {user, currentPage}) %>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-container">
+                <h1 class="hero-title">Discover Your Signature Scent</h1>
+                <p class="hero-description">
+                    Explore our exclusive collection of luxury perfumes, each crafted with the finest ingredients 
+                    to create unforgettable olfactory experiences.
+                </p>
+                <button class="hero-btn" onclick="scrollToProducts()">Explore Collection</button>
+            </div>
+        </section>
+
+        <!-- Products Section -->
+        <section class="products" id="products">
+            <div class="products-container">
+                <div class="section-header">
+                    <div>
+                        <h2 class="section-title">Our Premium Collection</h2>
+                        <p class="section-description">
+                            Each fragrance tells a unique story, crafted with passion and expertise
+                        </p>
+                    </div>
+                    <a href="/collection" class="view-all-link">View All →</a>
+                </div>
+
+                <!-- Sorting Controls for Home Page -->
+                <div class="home-sort-controls">
+                    <select id="homeSortSelect" class="sort-select">
+                        <option value="newest">Newest First</option>
+                        <option value="price-low">Price: Low to High</option>
+                        <option value="price-high">Price: High to Low</option>
+                        <option value="name-asc">Name: A to Z</option>
+                        <option value="rating">Top Rated</option>
+                    </select>
+                </div>
+                
+                <div class="products-grid" id="productsGrid">
+                    <!-- Products will be loaded here by JavaScript -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Cart Sidebar -->
+    <div class="cart-overlay" id="cartOverlay" onclick="closeCart()"></div>
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h3 class="cart-title">Shopping Cart</h3>
+            <button class="cart-close" onclick="closeCart()">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+        </div>
+        
+        <div class="cart-content" id="cartContent">
+            <div class="cart-empty" id="cartEmpty">
+                <svg class="cart-empty-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13"></path>
+                </svg>
+                <p>Your cart is empty</p>
+            </div>
+            <div class="cart-items" id="cartItems">
+                <!-- Cart items will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <span id="toastMessage"></span>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-brand">
+                <a href="/" class="footer-logo" aria-label="Elegance Perfumery home">
+                    <span class="footer-logo-title">Elegance</span>
+                    <span class="footer-logo-subtitle">Perfumery</span>
+                </a>
+                <p class="footer-description">
+                    Curating timeless fragrances crafted with the finest ingredients for truly memorable experiences.
+                </p>
+            </div>
+
+            <nav class="footer-nav" aria-label="Footer navigation">
+                <a href="/">Home</a>
+                <a href="/about">About</a>
+                <a href="/contact">Contact</a>
+                <a href="/product">Collection</a>
+            </nav>
+
+            <div class="footer-contact">
+                <h3>Contact</h3>
+                <p>Email: <a href="mailto:contact@elegance-perfumery.in">contact@elegance-perfumery.in</a></p>
+                <p>Phone: <a href="tel:+912226404465">+91 22 2640 4465</a></p>
+                <p>Mon - Sat: 10:00 AM - 8:00 PM</p>
+            </div>
+
+            <div class="footer-social">
+                <h3>Follow Us</h3>
+                <ul>
+                    <li><a href="https://instagram.com" target="_blank" rel="noopener">Instagram</a></li>
+                    <li><a href="https://facebook.com" target="_blank" rel="noopener">Facebook</a></li>
+                    <li><a href="https://pinterest.com" target="_blank" rel="noopener">Pinterest</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>© <span data-current-year></span> Elegance Perfumery. All rights reserved.</p>
+            <p class="footer-made-by">Crafted with care in Mumbai, India.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="/static/Scripts/data.js"></script>
+    <script src="/static/Scripts/utils.js"></script>
+    <script src="/static/Scripts/cart.js"></script>
+    <script src="/static/Scripts/products.js"></script>
+    <script src="/static/Scripts/app.js"></script>
+
+    <script>
+        // Mobile menu toggle
+        function toggleMenu() {
+            const nav = document.getElementById('primaryNav');
+            nav.classList.toggle('active');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Collection - Elegance Perfumery</title>
+  <meta name="description" content="Browse our complete collection of luxury perfumes. Find your signature scent with advanced filtering and sorting options.">
+  <link rel="canonical" href="/collection">
+  <link rel="icon" href="/favicon.ico">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/Styles/style.css">
+  <link rel="stylesheet" href="/static/Styles/navbar.css">
+  <link rel="stylesheet" href="/static/Styles/footer.css">
+  <link rel="stylesheet" href="/static/Styles/collection.css">
+</head>
+<body>
+  <!-- Navbar Include -->
+  <%- include('partials/navbar', {user, currentPage}) %>
+
+  <main>
+    <!-- Breadcrumb -->
+    <section class="breadcrumb">
+      <div class="breadcrumb-container">
+        <a href="/" class="breadcrumb-link">Home</a>
+        <span class="breadcrumb-separator">/</span>
+        <span class="breadcrumb-current">Collection</span>
+      </div>
+    </section>
+
+    <!-- Collection Header -->
+    <section class="collection-header">
+      <div class="collection-header-content">
+        <h1 class="collection-title">Our Complete Collection</h1>
+        <p class="collection-subtitle">Discover our entire range of exquisite fragrances, each telling a unique story</p>
+      </div>
+    </section>
+
+    <!-- Sorting Controls -->
+    <section class="collection-controls">
+      <div class="controls-container">
+        <div class="sort-section">
+          <label for="sortSelect" class="sort-label">Sort By:</label>
+          <select id="sortSelect" class="sort-select">
+            <option value="newest">Newest First</option>
+            <option value="price-low">Price: Low to High</option>
+            <option value="price-high">Price: High to Low</option>
+            <option value="name-asc">Name: A to Z</option>
+            <option value="name-desc">Name: Z to A</option>
+            <option value="rating">Top Rated</option>
+            <option value="reviews">Most Reviewed</option>
+          </select>
+        </div>
+
+        <div class="view-section">
+          <button class="view-btn active" id="gridViewBtn" title="Grid view">
+            <svg fill="currentColor" viewBox="0 0 24 24">
+              <path d="M3 3h8v8H3V3zm10 0h8v8h-8V3zM3 13h8v8H3v-8zm10 0h8v8h-8v-8z"/>
+            </svg>
+          </button>
+          <button class="view-btn" id="listViewBtn" title="List view">
+            <svg fill="currentColor" viewBox="0 0 24 24">
+              <path d="M3 4h18v2H3V4zm0 7h18v2H3v-2zm0 7h18v2H3v-2z"/>
+            </svg>
+          </button>
+        </div>
+
+        <div class="results-count">
+          <span id="productsCount">Loading...</span> products
+        </div>
+      </div>
+    </section>
+
+    <!-- Products Section -->
+    <section class="products" id="products">
+      <div class="products-container">
+        <div class="products-grid" id="productsGrid">
+          <div class="loading">Loading products...</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- No Products Message -->
+    <div id="noProducts" class="no-products" style="display: none;">
+      <p>No products available at the moment. Please check back soon!</p>
+    </div>
+  </main>
+
+  <!-- Cart Sidebar -->
+  <div class="cart-overlay" id="cartOverlay" onclick="closeCart()"></div>
+  <div class="cart-sidebar" id="cartSidebar">
+    <div class="cart-header">
+      <h3 class="cart-title">Shopping Cart</h3>
+      <button class="cart-close" onclick="closeCart()">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+    </div>
+    
+    <div class="cart-content" id="cartContent">
+      <div class="cart-empty" id="cartEmpty">
+        <svg class="cart-empty-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13"></path>
+        </svg>
+        <p>Your cart is empty</p>
+      </div>
+      <div class="cart-items" id="cartItems"></div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="toast" id="toast">
+    <span id="toastMessage"></span>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-brand">
+        <a href="/" class="footer-logo" aria-label="Elegance Perfumery home">
+          <span class="footer-logo-title">Elegance</span>
+          <span class="footer-logo-subtitle">Perfumery</span>
+        </a>
+        <p class="footer-description">
+          Curating timeless fragrances crafted with the finest ingredients for truly memorable experiences.
+        </p>
+      </div>
+
+      <nav class="footer-nav" aria-label="Footer navigation">
+        <a href="/">Home</a>
+        <a href="/about">About</a>
+        <a href="/contact">Contact</a>
+        <a href="/collection">Collection</a>
+      </nav>
+
+      <div class="footer-contact">
+        <h3>Contact</h3>
+        <p>Email: <a href="mailto:contact@elegance-perfumery.in">contact@elegance-perfumery.in</a></p>
+        <p>Phone: <a href="tel:+912226404465">+91 22 2640 4465</a></p>
+        <p>Mon - Sat: 10:00 AM - 8:00 PM</p>
+      </div>
+
+      <div class="footer-social">
+        <h3>Follow Us</h3>
+        <ul>
+          <li><a href="https://instagram.com" target="_blank" rel="noopener">Instagram</a></li>
+          <li><a href="https://facebook.com" target="_blank" rel="noopener">Facebook</a></li>
+          <li><a href="https://pinterest.com" target="_blank" rel="noopener">Pinterest</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>© <span data-current-year></span> Elegance Perfumery. All rights reserved.</p>
+      <p class="footer-made-by">Crafted with care in Mumbai, India.</p>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="/static/Scripts/data.js"></script>
+  <script src="/static/Scripts/utils.js"></script>
+  <script src="/static/Scripts/cart.js"></script>
+  <script src="/static/Scripts/products.js"></script>
+  <script src="/static/Scripts/collection.js"></script>
+
+  <script>
+    function toggleMenu() {
+      const nav = document.getElementById('primaryNav');
+      nav.classList.toggle('active');
+    }
+    
+    document.querySelector('[data-current-year]').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

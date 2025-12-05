@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Account | Elegance Perfumery</title>
+
+  <!-- Global site styles (same as index.ejs) -->
+  <link rel="stylesheet" href="/static/Styles/style.css">         <!-- main global styles (header/navbar) -->
+  <link rel="stylesheet" href="/static/Styles/footer.css">        <!-- footer styles -->
+  <link rel="stylesheet" href="/static/Styles/navbar.css">        <!-- navbar partial styles -->
+
+  <!-- Page specific styles last so they can override globals where necessary -->
+  <link rel="stylesheet" href="/static/Styles/profile.css">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<body>
+
+<!-- Include the navbar partial -->
+  <%- include('partials/navbar', {user, currentPage}) %>
+
+<!-- Scroll Progress Indicator -->
+<div class="scroll-progress" id="scrollProgress"></div>
+
+<!-- Back to Top Button -->
+<button class="back-to-top" id="backToTop">
+  <i class="fas fa-chevron-up"></i>
+</button>
+
+<!-- Hero Section -->
+<header class="profile-hero">
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="profile-avatar" id="profileAvatar">
+      <% if (user && user.profile_image) { %>
+        <img id="avatarImage" src="/uploads/<%= user.profile_image %>" alt="<%= user.name %>" onerror="fallbackToInitial()">
+      <% } else if (user && user.avatar_url) { %>
+        <img id="avatarImage" src="<%= user.avatar_url %>" alt="<%= user.name %>" onerror="fallbackToInitial()">
+      <% } else { %>
+        <span id="avatarInitial"><%= user ? user.name.charAt(0).toUpperCase() : 'U' %></span>
+      <% } %>
+    </div>
+    <div class="profile-info">
+      <h1 class="profile-name" id="profileName"><%= user ? user.name : 'User' %></h1>
+      <p class="profile-email" id="profileEmail"><%= user ? user.email : 'user@email.com' %></p>
+      <div class="profile-stats">
+        <div class="stat">
+          <span class="stat-value" id="orderCount">0</span>
+          <span class="stat-label">Orders</span>
+        </div>
+        <div class="stat">
+          <span class="stat-value" id="wishlistCount">0</span>
+          <span class="stat-label">Wishlist</span>
+        </div>
+        <div class="stat">
+          <span class="stat-value" id="memberSince">2025</span>
+          <span class="stat-label">Member Since</span>
+        </div>
+      </div>
+      <div class="profile-actions">
+        <a href="/edit_profile" class="btn btn-primary">
+          <i class="fas fa-edit"></i> Edit Profile
+        </a>
+        <a href="/logout" class="btn btn-secondary">
+          <i class="fas fa-sign-out-alt"></i> Logout
+        </a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Profile Content -->
+<div class="profile-content">
+  <!-- Account Overview Section -->
+  <section class="profile-section">
+    <div class="section-header">
+      <h2><i class="fas fa-user"></i> Account Information</h2>
+    </div>
+    <div class="info-grid">
+      <div class="info-card">
+        <div class="info-icon"><i class="fas fa-envelope"></i></div>
+        <div class="info-content">
+          <h3>Email</h3>
+          <p id="userEmail"><%= user ? user.email : 'Not provided' %></p>
+        </div>
+      </div>
+      <div class="info-card">
+        <div class="info-icon"><i class="fas fa-phone"></i></div>
+        <div class="info-content">
+          <h3>Phone</h3>
+          <p id="userPhone"><%= user && user.phone ? user.phone : 'Not provided' %></p>
+        </div>
+      </div>
+      <div class="info-card">
+        <div class="info-icon"><i class="fas fa-map-marker-alt"></i></div>
+        <div class="info-content">
+          <h3>Shipping Address</h3>
+          <p id="userAddress"><%= user && user.address ? user.address : 'Not provided' %></p>
+        </div>
+      </div>
+      <div class="info-card">
+        <div class="info-icon"><i class="fas fa-calendar-alt"></i></div>
+        <div class="info-content">
+          <h3>Member Since</h3>
+          <p id="memberSinceFull">January 1, 2025</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quick Actions Section -->
+  <section class="profile-section">
+    <div class="section-header">
+      <h2><i class="fas fa-bolt"></i> Quick Actions</h2>
+    </div>
+    <div class="quick-actions-grid">
+      <a href="#orders" class="action-card">
+        <i class="fas fa-box"></i>
+        <h3>Order History</h3>
+        <p>View past orders & tracking</p>
+      </a>
+      <a href="#wishlist" class="action-card">
+        <i class="fas fa-heart"></i>
+        <h3>Wishlist</h3>
+        <p>Your saved fragrances</p>
+      </a>
+      <a href="#reviews" class="action-card">
+        <i class="fas fa-star"></i>
+        <h3>Reviews</h3>
+        <p>Your product reviews</p>
+      </a>
+      <a href="#addresses" class="action-card">
+        <i class="fas fa-map-pin"></i>
+        <h3>Addresses</h3>
+        <p>Manage delivery addresses</p>
+      </a>
+      <a href="#payments" class="action-card">
+        <i class="fas fa-credit-card"></i>
+        <h3>Payment Methods</h3>
+        <p>Saved cards & wallets</p>
+      </a>
+      <a href="#settings" class="action-card">
+        <i class="fas fa-cog"></i>
+        <h3>Settings</h3>
+        <p>Account preferences</p>
+      </a>
+    </div>
+  </section>
+
+  <!-- Order History Section -->
+  <section class="profile-section" id="orders">
+    <div class="section-header">
+      <h2><i class="fas fa-box"></i> Recent Orders</h2>
+      <a href="#" class="link-action">View All</a>
+    </div>
+    <div id="ordersContainer" class="orders-list">
+      <p class="empty-state">No orders yet. <a href="/product">Start shopping</a></p>
+    </div>
+  </section>
+
+  <!-- Wishlist Section -->
+  <section class="profile-section" id="wishlist">
+    <div class="section-header">
+      <h2><i class="fas fa-heart"></i> My Wishlist</h2>
+      <a href="#" class="link-action">View All</a>
+    </div>
+    <div id="wishlistContainer" class="wishlist-grid">
+      <p class="empty-state">Your wishlist is empty. <a href="/product">Explore collection</a></p>
+    </div>
+  </section>
+
+  <!-- Reviews Section -->
+  <section class="profile-section" id="reviews">
+    <div class="section-header">
+      <h2><i class="fas fa-star"></i> Your Reviews</h2>
+      <a href="#" class="link-action">View All</a>
+    </div>
+    <div id="reviewsContainer" class="reviews-list">
+      <p class="empty-state">No reviews yet. <a href="/product">Leave your first review</a></p>
+    </div>
+  </section>
+</div>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="footer-container">
+    <div class="footer-brand">
+      <a href="/" class="footer-logo">
+        <span class="footer-logo-title">Elegance</span>
+        <span class="footer-logo-subtitle">Perfumery</span>
+      </a>
+      <p class="footer-description">
+        Curating timeless fragrances crafted with the finest ingredients for truly memorable experiences.
+      </p>
+    </div>
+
+    <nav class="footer-nav">
+      <a href="/">Home</a>
+      <a href="/about">About</a>
+      <a href="/contact">Contact</a>
+      <a href="/product">Collection</a>
+    </nav>
+
+    <div class="footer-contact">
+      <h3>Contact</h3>
+      <p>Email: <a href="mailto:contact@elegance-perfumery.in">contact@elegance-perfumery.in</a></p>
+      <p>Phone: <a href="tel:+912226404465">+91 22 2640 4465</a></p>
+      <p>Mon - Sat: 10:00 AM - 8:00 PM</p>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p>© <span data-current-year></span> Elegance Perfumery. All rights reserved.</p>
+    <p class="footer-made-by">Crafted with care in Mumbai, India.</p>
+  </div>
+</footer>
+
+<script>
+// User profile data
+const userData = {
+  name: "<%= user ? user.name : 'User' %>",
+  email: "<%= user ? user.email : 'user@email.com' %>",
+  phone: "<%= user && user.phone ? user.phone : 'Not provided' %>",
+  address: "<%= user && user.address ? user.address : 'Not provided' %>",
+  avatar_url: "<%= user && user.avatar_url ? user.avatar_url : '' %>",
+  created_at: new Date().toISOString(),
+  orders: [],
+  wishlist: [],
+  reviews: []
+};
+
+function fallbackToInitial() {
+  const avatarDiv = document.getElementById('profileAvatar');
+  const img = document.getElementById('avatarImage');
+  if (img) {
+    img.remove();
+  }
+  const initial = document.createElement('span');
+  initial.id = 'avatarInitial';
+  initial.textContent = userData.name.charAt(0).toUpperCase();
+  avatarDiv.appendChild(initial);
+}
+
+// Initialize profile display
+document.addEventListener('DOMContentLoaded', function() {
+  // User basic info
+  document.getElementById("profileName").textContent = userData.name;
+  document.getElementById("profileEmail").textContent = userData.email;
+  document.getElementById("userEmail").textContent = userData.email;
+  document.getElementById("userPhone").textContent = userData.phone;
+  document.getElementById("userAddress").textContent = userData.address;
+  document.getElementById("memberSince").textContent = new Date(userData.created_at).getFullYear();
+  document.getElementById("memberSinceFull").textContent = new Date(userData.created_at).toLocaleDateString('en-US', { 
+    year: 'long', 
+    month: 'long', 
+    day: 'numeric' 
+  });
+
+  // Stats
+  document.getElementById("orderCount").textContent = userData.orders.length;
+  document.getElementById("wishlistCount").textContent = userData.wishlist.length;
+
+  // Orders list
+  const ordersContainer = document.getElementById("ordersContainer");
+  if (userData.orders.length > 0) {
+    ordersContainer.innerHTML = userData.orders.map(order => `
+      <div class="order-card">
+        <div class="order-header">
+          <h3>Order #${order.id}</h3>
+          <span class="order-status ${order.status}">${order.status}</span>
+        </div>
+        <div class="order-meta">
+          <span><i class="fas fa-calendar"></i> ${new Date(order.date).toLocaleDateString()}</span>
+          <span><i class="fas fa-dollar-sign"></i> $${order.total}</span>
+        </div>
+        <p class="order-items">${order.items} item(s)</p>
+      </div>
+    `).join('');
+  }
+
+  // Wishlist
+  const wishlistContainer = document.getElementById("wishlistContainer");
+  if (userData.wishlist.length > 0) {
+    wishlistContainer.innerHTML = userData.wishlist.map(item => `
+      <div class="wishlist-card">
+        <div class="wishlist-image">
+          <img src="${item.image}" alt="${item.name}">
+        </div>
+        <div class="wishlist-info">
+          <h3>${item.name}</h3>
+          <p class="wishlist-price">$${item.price}</p>
+          <button class="btn btn-primary btn-sm">Add to Cart</button>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  // Reviews
+  const reviewsContainer = document.getElementById("reviewsContainer");
+  if (userData.reviews.length > 0) {
+    reviewsContainer.innerHTML = userData.reviews.map(review => `
+      <div class="review-card">
+        <div class="review-header">
+          <h3>${review.product}</h3>
+          <div class="review-rating">
+            ${'<i class="fas fa-star"></i>'.repeat(review.rating)}
+          </div>
+        </div>
+        <p class="review-date">${new Date(review.date).toLocaleDateString()}</p>
+        <p class="review-text">${review.text}</p>
+      </div>
+    `).join('');
+  }
+
+  // Set current year in footer
+  document.querySelector('[data-current-year]').textContent = new Date().getFullYear();
+});
+
+// Mobile menu toggle
+function toggleMenu() {
+  const nav = document.getElementById('primaryNav');
+  nav?.classList.toggle('active');
+}
+
+// Back to top button
+const backToTopBtn = document.getElementById('backToTop');
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 300) {
+    backToTopBtn.style.display = 'block';
+  } else {
+    backToTopBtn.style.display = 'none';
+  }
+});
+
+backToTopBtn?.addEventListener('click', () => {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+
+// Scroll progress
+const scrollProgress = document.getElementById('scrollProgress');
+window.addEventListener('scroll', () => {
+  const scrollTop = window.scrollY;
+  const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+  const scrollPercent = (scrollTop / docHeight) * 100;
+  scrollProgress.style.width = scrollPercent + '%';
+});
+</script>
+
+</body>
+</html>

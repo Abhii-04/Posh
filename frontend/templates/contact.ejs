@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact | Elegance Perfumery</title>
+  <meta
+    name="description"
+    content="Contact Elegance Perfumery for personalized fragrance consultation. Visit our boutique in Mumbai or reach out via phone or email for expert perfume advice."
+  />
+  <link rel="canonical" href="/contact" />
+  <link rel="icon" href="/favicon.ico" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Inter:wght@300;400;500;600&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="/static/Styles/style.css" />
+  <link rel="stylesheet" href="/static/Styles/footer.css" />
+  <link rel="stylesheet" href="/static/Styles/navbar.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body>
+  <!-- NAVBAR -->
+  <%- include('partials/navbar', {user, currentPage}) %>
+
+  <!-- MAIN -->
+  <main>
+    <!-- Hero -->
+    <section class="hero">
+      <div class="hero-container">
+        <h1 class="hero-title">Contact Us</h1>
+        <p class="hero-description">
+          Our team of experts is at your disposal to advise you and accompany you in your quest for the perfect fragrance.
+        </p>
+      </div>
+    </section>
+
+    <!-- Contact Form & Info -->
+    <section class="contact-section">
+      <div class="contact-container">
+        <div class="contact-grid">
+          <!-- Form -->
+          <div class="contact-form-section">
+            <div class="form-header">
+              <h2 class="form-title">Write to Us</h2>
+              <p class="form-description">
+                Share your questions, preferences, or ask for personalized advice.
+              </p>
+            </div>
+
+            <form class="contact-form" id="contactForm" novalidate>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="name" class="form-label">Full Name</label>
+                  <input type="text" id="name" name="name" class="form-input" placeholder="Your name" required />
+                </div>
+                <div class="form-group">
+                  <label for="email" class="form-label">Email Address</label>
+                  <input type="email" id="email" name="email" class="form-input" placeholder="your@email.com" required />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="subject" class="form-label">Subject</label>
+                <input type="text" id="subject" name="subject" class="form-input" placeholder="Subject of your message" required />
+              </div>
+
+              <div class="form-group">
+                <label for="message" class="form-label">Message</label>
+                <textarea id="message" name="message" class="form-textarea" placeholder="Share your questions or comments..."
+                  required minlength="10"></textarea>
+              </div>
+
+              <button type="submit" class="form-submit">Send Message</button>
+              <p class="form-feedback" id="formFeedback" role="status" aria-live="polite" style="display: none"></p>
+            </form>
+          </div>
+
+          <!-- Contact Info -->
+          <div class="contact-info-section">
+            <div class="info-header">
+              <h2 class="info-title">Our Details</h2>
+              <p class="info-description">Visit our boutique or contact us directly.</p>
+            </div>
+
+            <div class="contact-cards">
+              <div class="contact-card">
+                <div class="contact-icon">📍</div>
+                <div class="contact-details">
+                  <h3 class="contact-title">Address</h3>
+                  <p class="contact-text">
+                    123 Perfume Street<br />
+                    Bandra West, Mumbai 400050<br />
+                    Maharashtra, India
+                  </p>
+                </div>
+              </div>
+
+              <div class="contact-card">
+                <div class="contact-icon">📞</div>
+                <div class="contact-details">
+                  <h3 class="contact-title">Phone</h3>
+                  <p class="contact-text">+91 22 2640 4465</p>
+                </div>
+              </div>
+
+              <div class="contact-card">
+                <div class="contact-icon">✉️</div>
+                <div class="contact-details">
+                  <h3 class="contact-title">Email</h3>
+                  <p class="contact-text">contact@elegance-perfumery.in</p>
+                </div>
+              </div>
+
+              <div class="contact-card">
+                <div class="contact-icon">⏰</div>
+                <div class="contact-details">
+                  <h3 class="contact-title">Hours</h3>
+                  <p>Mon - Sat: 10:00 AM - 8:00 PM</p>
+                  <p>Sunday: 2:00 PM - 7:00 PM</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Map -->
+    <section class="map-section">
+      <div class="map-container">
+        <h2 class="section-title">Visit Our Boutique</h2>
+        <p class="section-description">
+          Discover our olfactory world in the heart of Mumbai's luxury shopping district.
+        </p>
+
+        <div class="map-placeholder">
+          <p class="map-text">🗺️ Interactive map coming soon</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+ 
+
+  <!-- JS Scripts -->
+  <script src="/static/Scripts/footer.js"></script>
+  <script src="/static/Scripts/data.js"></script>
+  <script src="/static/Scripts/utils.js"></script>
+  <script src="/static/Scripts/cart.js"></script>
+  <script src="/static/Scripts/products.js"></script>
+  <script src="/static/Scripts/app.js"></script>
+
+  <script>
+    // Contact form handling
+    const form = document.getElementById('contactForm');
+    const feedback = document.getElementById('formFeedback');
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+
+      const formData = {
+        name: form.name.value.trim(),
+        email: form.email.value.trim(),
+        subject: form.subject.value.trim(),
+        message: form.message.value.trim(),
+      };
+
+      if (!formData.name || !formData.email || !formData.subject || formData.message.length < 10) {
+        feedback.style.display = 'block';
+        feedback.textContent = 'Please fill all fields (message ≥ 10 chars).';
+        feedback.className = 'form-feedback error';
+        return;
+      }
+
+      try {
+        const response = await fetch('/contact', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(formData),
+        });
+
+        const result = await response.json();
+
+        if (!response.ok) {
+          const message = result?.error ?? 'Failed to send message';
+          throw new Error(message);
+        }
+
+        feedback.style.display = 'block';
+        feedback.textContent = result.message ?? '✅ Thanks! Your message has been received.';
+        feedback.className = 'form-feedback success';
+        form.reset();
+      } catch (error) {
+        feedback.style.display = 'block';
+        feedback.textContent = `❌ Error: ${error.message}`;
+        feedback.className = 'form-feedback error';
+      }
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelector('[data-current-year]').textContent = new Date().getFullYear();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Product | Elegance Perfumery</title>
+  <meta
+    name="description"
+    content="Discover details of our luxury perfume collection — premium ingredients, exquisite craftsmanship, and unforgettable fragrances."
+  />
+  <link rel="canonical" href="/product" />
+  <link rel="icon" href="/favicon.ico" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="/static/Styles/style.css" />
+  <link rel="stylesheet" href="/static/Styles/navbar.css" />
+  <link rel="stylesheet" href="/static/Styles/footer.css" />
+</head>
+
+<body>
+  <!-- Navbar -->
+  <%- include('partials/navbar', { user, currentPage }) %>
+
+  <main>
+    <!-- Breadcrumb -->
+    <section class="breadcrumb">
+      <div class="breadcrumb-container">
+        <a href="/collection" class="breadcrumb-link">Collection</a>
+        <span class="breadcrumb-separator">/</span>
+        <span class="breadcrumb-current" id="productBreadcrumb">Product Details</span>
+      </div>
+    </section>
+
+    <!-- Product Details -->
+    <section class="product-details" id="productDetails">
+      <!-- Product data will be injected via JS -->
+    </section>
+  </main>
+
+  <!-- Cart Sidebar -->
+  <div class="cart-overlay" id="cartOverlay" onclick="closeCart()"></div>
+  <div class="cart-sidebar" id="cartSidebar">
+    <div class="cart-header">
+      <h3 class="cart-title">Shopping Cart</h3>
+      <button class="cart-close" onclick="closeCart()">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M6 18L18 6M6 6l12 12"
+          ></path>
+        </svg>
+      </button>
+    </div>
+
+    <div class="cart-content" id="cartContent">
+      <div class="cart-empty" id="cartEmpty">
+        <svg class="cart-empty-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13"
+          ></path>
+        </svg>
+        <p>Your cart is empty</p>
+      </div>
+
+      <div class="cart-items" id="cartItems"></div>
+
+      <div class="cart-footer" id="cartFooter" style="display: none;">
+        <div class="cart-total">
+          <span class="total-label">Total:</span>
+          <span class="total-amount" id="totalAmount">₹0</span>
+        </div>
+        <button class="checkout-btn" onclick="checkout()">Proceed to Checkout</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="toast" id="toast">
+    <span id="toastMessage"></span>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-brand">
+        <a href="/" class="footer-logo">
+          <span class="footer-logo-title">Elegance</span>
+          <span class="footer-logo-subtitle">Perfumery</span>
+        </a>
+        <p class="footer-description">
+          Curating timeless fragrances crafted with the finest ingredients for truly memorable experiences.
+        </p>
+      </div>
+
+      <nav class="footer-nav">
+        <a href="/">Home</a>
+        <a href="/about">About</a>
+        <a href="/contact">Contact</a>
+        <!-- ✅ Fixed: Correct link name -->
+        <a href="/collection">Collection</a>
+      </nav>
+
+      <div class="footer-contact">
+        <h3>Contact</h3>
+        <p>Email: <a href="mailto:contact@elegance-perfumery.in">contact@elegance-perfumery.in</a></p>
+        <p>Phone: <a href="tel:+912226404465">+91 22 2640 4465</a></p>
+        <p>Mon - Sat: 10:00 AM - 8:00 PM</p>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>© <span data-current-year></span> Elegance Perfumery. All rights reserved.</p>
+      <p class="footer-made-by">Crafted with care in Mumbai, India.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Set current year in footer
+    document.querySelector('[data-current-year]').textContent = new Date().getFullYear();
+
+    // Load single product details dynamically
+    (function () {
+      const params = new URLSearchParams(window.location.search);
+      const id = params.get("id");
+      const container = document.getElementById("productDetails");
+
+      if (!id) {
+        container.innerHTML = '<div class="product-error">Product not found.</div>';
+        return;
+      }
+
+      fetch(`/api/products/${id}`)
+        .then((res) => {
+          if (!res.ok) throw new Error("Product not found");
+          return res.json();
+        })
+        .then((data) => {
+          if (!data) {
+            container.innerHTML = '<div class="product-error">Product not found.</div>';
+            return;
+          }
+
+          container.innerHTML = `
+            <div class="product-card">
+              <img src="${data.image}" alt="${data.name}" class="product-img">
+              <div class="product-info">
+                <h2>${data.name}</h2>
+                <p>${data.description}</p>
+                <p class="product-price">₹${data.price}</p>
+                <button onclick="addToCart(${data.id})">Add to Cart</button>
+              </div>
+            </div>
+          `;
+        })
+        .catch(() => {
+          container.innerHTML = '<div class="product-error">Error loading product.</div>';
+        });
+    })();
+
+    // Navbar menu toggle
+    function toggleMenu() {
+      const nav = document.getElementById('primaryNav');
+      nav.classList.toggle('active');
+    }
+
+    // Cart functions
+    function toggleCart() {
+      document.getElementById('cartSidebar').classList.toggle('open');
+      document.getElementById('cartOverlay').classList.toggle('visible');
+    }
+
+    function closeCart() {
+      document.getElementById('cartSidebar').classList.remove('open');
+      document.getElementById('cartOverlay').classList.remove('visible');
+    }
+
+    function addToCart(productId) {
+      const toast = document.getElementById('toast');
+      const toastMessage = document.getElementById('toastMessage');
+      toastMessage.textContent = 'Product added to cart!';
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 3000);
+    }
+
+    function checkout() {
+      alert('Checkout functionality will be implemented soon!');
+    }
+  </script>
+
+  <!-- Static scripts -->
+  <script src="/static/Scripts/data.js"></script>
+  <script src="/static/Scripts/utils.js"></script>
+  <script src="/static/Scripts/cart.js"></script>
+  <script src="/static/Scripts/products.js"></script>
+  <script src="/static/Scripts/app.js"></script>
+</body>
+</html>
