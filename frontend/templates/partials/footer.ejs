@@ -1,0 +1,47 @@
+<footer class="footer">
+    <div class="footer-container">
+        <div class="footer-brand">
+            <a href="/" class="footer-logo">
+                <span class="footer-logo-title">Elegance</span>
+                <span class="footer-logo-subtitle">Perfumery</span>
+            </a>
+            <p class="footer-description">
+                Discover our exclusive collection of luxury perfumes crafted with premium ingredients.
+            </p>
+        </div>
+
+        <div class="footer-nav">
+            <a href="/collection">Collection</a>
+            <a href="/about">About Us</a>
+            <a href="/contact">Contact</a>
+            <a href="/login">Login</a>
+        </div>
+
+        <div class="footer-contact">
+            <h3>Contact Us</h3>
+            <p><a href="mailto:info@elegance.com">info@elegance.com</a></p>
+            <p><a href="tel:+1234567890">+1 234 567 890</a></p>
+        </div>
+
+        <div class="footer-social">
+            <h3>Follow Us</h3>
+            <ul>
+                <li><a href="#">Instagram</a></li>
+                <li><a href="#">Facebook</a></li>
+                <li><a href="#">Twitter</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer-bottom" style="text-align: center; margin-top: 20px; font-size: 12px; color: #888;">
+        <p>&copy; <span data-current-year></span> Elegance Perfumery. All rights reserved.</p>
+    </div>
+</footer>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const yearSpan = document.querySelector('[data-current-year]');
+        if (yearSpan) {
+            yearSpan.textContent = new Date().getFullYear();
+        }
+    });
+</script>

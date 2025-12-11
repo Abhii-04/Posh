@@ -1,5 +1,7 @@
 import express from 'express';
 import supabase from '../config/supabase.js';
+import { supabaseAdmin } from '../config/supabase.js';
+import { randomUUID } from 'crypto';
 
 const router = express.Router();
 
@@ -79,7 +81,7 @@ router.put('/api/admin/users/:id', async (req, res) => {
   try {
     const { name, email, phone, address, role } = req.body;
     
-    const { data, error } = await supabase
+    const { data, error } = await supabaseAdmin
       .from('User')
       .update({ name, email, phone, address, role })
       .eq('id', req.params.id)
@@ -100,7 +102,7 @@ router.delete('/api/admin/users/:id', async (req, res) => {
       return res.status(400).json({ error: 'Cannot delete your own account' });
     }
 
-    const { error } = await supabase
+    const { error } = await supabaseAdmin
       .from('User')
       .delete()
       .eq('id', req.params.id);
@@ -136,9 +138,10 @@ router.post('/api/admin/products', async (req, res) => {
       return res.status(400).json({ error: 'Name and price are required' });
     }
 
-    const { data, error } = await supabase
+    const { data, error } = await supabaseAdmin
       .from('products')
       .insert([{
+        id: randomUUID(),
         name,
         description: description || null,
         price: parseFloat(price),
@@ -161,7 +164,7 @@ router.put('/api/admin/products/:id', async (req, res) => {
   try {
     const { name, description, price, stock, is_active } = req.body;
 
-    const { data, error } = await supabase
+    const { data, error } = await supabaseAdmin
       .from('products')
       .update({
         name,
@@ -185,7 +188,7 @@ router.put('/api/admin/products/:id', async (req, res) => {
 
 router.delete('/api/admin/products/:id', async (req, res) => {
   try {
-    const { error } = await supabase
+    const { error } = await supabaseAdmin
       .from('products')
       .delete()
       .eq('id', req.params.id);
@@ -233,7 +236,7 @@ router.put('/api/admin/orders/:id', async (req, res) => {
   try {
     const { status } = req.body;
 
-    const { data, error } = await supabase
+    const { data, error } = await supabaseAdmin
       .from('orders')
       .update({ status })
       .eq('id', req.params.id)

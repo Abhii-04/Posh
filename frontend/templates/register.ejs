@@ -1,276 +1,91 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Create Account | Elegance Perfumery</title>
-  <meta name="description" content="Create your account to get started with Elegance Perfumery" />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/static/Styles/style.css">
-  <link rel="stylesheet" href="../static/Styles/register.css" />
-  <link rel="stylesheet" href="../static/Styles/footer.css" />
-  <link rel="stylesheet" href="/static/Styles/navbar.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="/static/Styles/style.css">
+    <link rel="stylesheet" href="/static/Styles/register.css" />
+    <link rel="stylesheet" href="/static/Styles/footer.css">
+    <link rel="stylesheet" href="/static/Styles/navbar.css">
 </head>
 <body>
-  <!-- Include the navbar partial -->
-  <%- include('partials/navbar', {user, currentPage}) %>
+    <%- include('partials/navbar', {user: null, currentPage: 'register'}) %>
 
-  <div class="container">
-    <div class="form-wrapper">
-      <!-- Header -->
-      <div class="header">
-        <div class="icon-wrapper">
-          <svg class="icon" width="28" height="28" viewBox="0 0 24 24" fill="none"
-            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="20 6 9 17 4 12"></polyline>
-          </svg>
+    <main class="main-wrapper">
+        <div class="split-card">
+            
+            <div class="left-panel">
+                <div class="brand-logo">
+                    <div class="logo-box"></div> </div>
+
+                <div class="content-box">
+                    <h1>Let us help you run your freelance business.</h1>
+                    <p class="sub-text">Our registration process is quick and easy, taking no more than 10 minutes to complete.</p>
+                
+                    <div class="testimonial-card">
+                        <div class="quote-mark">“</div>
+                        <p>I'm impressed with the results I've seen since starting to use this product. I began receiving clients and projects in the first week.</p>
+                        
+                        <div class="user-profile">
+                            <div class="avatar-circle">JK</div>
+                            <div class="user-info">
+                                <span class="name">Jonas Kim</span>
+                                <span class="role">Product Designer</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="slider-dots">
+                        <span class="dot active"></span>
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="right-panel">
+                <div class="form-header">
+                    <h2>Get started</h2>
+                    <p>Create your account now</p>
+                </div>
+
+                <form action="/register" method="POST">
+                    
+                    <label for="fullName">Full Name</label>
+                    <input type="text" id="fullName" name="fullName" placeholder="Alex Parkinson" required>
+
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" placeholder="alex@example.com" required>
+
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" placeholder="••••••••" required>
+
+                    <label for="confirmPassword">Confirm Password</label>
+                    <input type="password" id="confirmPassword" name="confirmPassword" placeholder="••••••••" required>
+                    
+                    <label for="phone">Phone Number</label>
+                    <input type="tel" id="phone" name="phone" placeholder="+1 234 567 8900">
+
+                    <label for="address">Address</label>
+                    <input type="text" id="address" name="address" placeholder="123 Street, City">
+
+                    <button type="submit" class="btn-submit">Sign Up</button>
+
+                    <div class="divider">or</div>
+
+                    <button type="button" class="btn-google">
+                        <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"/><path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"/><path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"/><path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"/></svg>
+                        Continue with Google
+                    </button>
+                    
+                    <p class="login-link">Have an account? <a href="/login">Login</a></p>
+                </form>
+            </div>
         </div>
-        <h1 class="title">Create Account</h1>
-        <p class="subtitle">Fill in your details to get started</p>
-      </div>
+    </main>
 
-      <!-- Form -->
-      <form id="registerForm" class="form">
-        <div class="form-card">
-          <div class="form-group">
-            <label for="name" class="label">Full Name</label>
-            <div class="input-wrapper">
-              <svg class="input-icon" width="16" height="16" viewBox="0 0 24 24"
-                fill="none" stroke="currentColor" stroke-width="2"
-                stroke-linecap="round" stroke-linejoin="round">
-                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                <circle cx="12" cy="7" r="4"></circle>
-              </svg>
-              <input type="text" id="name" name="name" placeholder="John Doe"
-                class="input" required />
-            </div>
-          </div>
+    <%- include('partials/footer') %>
 
-          <div class="form-group">
-            <label for="email" class="label">Email Address</label>
-            <div class="input-wrapper">
-              <svg class="input-icon" width="16" height="16" viewBox="0 0 24 24"
-                fill="none" stroke="currentColor" stroke-width="2"
-                stroke-linecap="round" stroke-linejoin="round">
-                <rect x="2" y="4" width="20" height="16" rx="2"></rect>
-                <path d="m2 7 10 7 10-7"></path>
-              </svg>
-              <input type="email" id="email" name="email"
-                placeholder="john@example.com" class="input" required />
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label for="password" class="label">Password</label>
-            <div class="input-wrapper">
-              <svg class="input-icon" width="16" height="16" viewBox="0 0 24 24"
-                fill="none" stroke="currentColor" stroke-width="2"
-                stroke-linecap="round" stroke-linejoin="round">
-                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-              </svg>
-              <input type="password" id="password" name="password"
-                placeholder="••••••••" class="input" required />
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label for="confirmPassword" class="label">Confirm Password</label>
-            <div class="input-wrapper">
-              <svg class="input-icon" width="16" height="16" viewBox="0 0 24 24"
-                fill="none" stroke="currentColor" stroke-width="2"
-                stroke-linecap="round" stroke-linejoin="round">
-                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-              </svg>
-              <input type="password" id="confirmPassword" name="confirmPassword"
-                placeholder="••••••••" class="input" required />
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label for="address" class="label">Address</label>
-            <div class="input-wrapper">
-              <svg class="input-icon" width="16" height="16" viewBox="0 0 24 24"
-                fill="none" stroke="currentColor" stroke-width="2"
-                stroke-linecap="round" stroke-linejoin="round">
-                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                <circle cx="12" cy="10" r="3"></circle>
-              </svg>
-              <input type="text" id="address" name="address"
-                placeholder="123 Main St, City, Country" class="input" required />
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label for="phone" class="label">Phone Number</label>
-            <div class="input-wrapper">
-              <svg class="input-icon" width="16" height="16" viewBox="0 0 24 24"
-                fill="none" stroke="currentColor" stroke-width="2"
-                stroke-linecap="round" stroke-linejoin="round">
-                <path
-                  d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z">
-                </path>
-              </svg>
-              <input type="tel" id="phone" name="phone"
-                placeholder="+1 (555) 000-0000" class="input" required />
-            </div>
-          </div>
-
-          <button type="submit" class="submit-btn">
-            <span>Create Account</span>
-            <svg class="btn-icon" width="16" height="16" viewBox="0 0 24 24"
-              fill="none" stroke="currentColor" stroke-width="2"
-              stroke-linecap="round" stroke-linejoin="round">
-              <line x1="5" y1="12" x2="19" y2="12"></line>
-              <polyline points="12 5 19 12 12 19"></polyline>
-            </svg>
-          </button>
-
-          <!-- Google Sign-In Button -->
-          <!-- we use a button and client-side redirect to /register/google which triggers register-via-oauth server flow -->
-          <button type="button" class="google-btn" id="googleSignInBtn" aria-label="Register with Google">
-            <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google Logo">
-            Continue with Google
-          </button>
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <div id="toast" class="toast">
-    <span id="toastMessage"></span>
-  </div>
-
-  <!-- Footer -->
-  <footer class="footer">
-    <div class="footer-container">
-      <div class="footer-brand">
-        <a href="/" class="footer-logo">
-          <span class="footer-logo-title">Elegance</span>
-          <span class="footer-logo-subtitle">Perfumery</span>
-        </a>
-        <p class="footer-description">
-          Curating timeless fragrances crafted with the finest ingredients for truly memorable experiences.
-        </p>
-      </div>
-
-      <nav class="footer-nav">
-        <a href="/">Home</a>
-        <a href="/about">About</a>
-        <a href="/contact">Contact</a>
-        <a href="/product">Collection</a>
-      </nav>
-
-      <div class="footer-contact">
-        <h3>Contact</h3>
-        <p>Email: <a href="mailto:contact@elegance-perfumery.in">contact@elegance-perfumery.in</a></p>
-        <p>Phone: <a href="tel:+912226404465">+91 22 2640 4465</a></p>
-        <p>Mon - Sat: 10:00 AM - 8:00 PM</p>
-      </div>
-    </div>
-
-    <div class="footer-bottom">
-      <p>© <span data-current-year></span> Elegance Perfumery. All rights reserved.</p>
-      <p class="footer-made-by">Crafted with care in Mumbai, India.</p>
-    </div>
-  </footer>
-
-  <script>
-    document.querySelector('[data-current-year]').textContent = new Date().getFullYear();
-  </script>
-
-  <script>
-    // ---------- UI helpers ----------
-    const googleBtn = document.getElementById('googleSignInBtn');
-    const form = document.getElementById('registerForm');
-    const toast = document.getElementById('toast');
-    const toastMessage = document.getElementById('toastMessage');
-
-    function showToast(message, isError = false) {
-      toastMessage.textContent = message;
-      toast.classList.add('show');
-      toast.classList.toggle('error', isError);
-      setTimeout(() => toast.classList.remove('show'), 3000);
-    }
-
-    function updateNavbar() {
-      const nav = document.querySelector('.nav');
-      if (nav) {
-        nav.innerHTML = `
-          <a href="/" class="nav-link">Collection</a>
-          <a href="/about" class="nav-link">About Us</a>
-          <a href="/contact" class="nav-link">Contact</a>
-          <a href="/profile" class="nav-link">Profile</a>
-          <a href="/logout" class="nav-link">Logout</a>
-        `;
-      }
-    }
-
-    // ---------- FORM SUBMIT ----------
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const formData = Object.fromEntries(new FormData(form).entries());
-
-      if (formData.password !== formData.confirmPassword)
-        return showToast('Passwords do not match', true);
-
-      if (Object.values(formData).some(v => !v))
-        return showToast('Please fill in all fields', true);
-
-      const btn = form.querySelector('.submit-btn');
-      btn.disabled = true;
-      btn.innerHTML = '<span>Creating Account...</span>';
-
-      try {
-        const res = await fetch('/register', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(formData)
-        });
-        const data = await res.json();
-        if (!res.ok) throw new Error(data.error || 'Registration failed');
-        showToast('Account created successfully!');
-        form.reset();
-        updateNavbar();
-        setTimeout(() => {
-          window.location.href = '/';
-        }, 500);
-      } catch (error) {
-        showToast('Registration failed. Please try again.', true);
-      } finally {
-        btn.disabled = false;
-        btn.innerHTML = '<span>Create Account</span><svg class="btn-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>';
-      }
-    });
-
-    // ---------- GOOGLE (REGISTER) REDIRECT ----------
-    // When the user hits "Continue with Google" on this register page,
-    // we start the **register-via-oauth** flow on the server (/register/google).
-    // We pass a `next` param so the server knows where to redirect after registration.
-    googleBtn.addEventListener('click', (e) => {
-      // prevent double click
-      googleBtn.disabled = true;
-      googleBtn.textContent = 'Redirecting to Google...';
-
-      // choose destination after successful register
-      const next = '/profile'; // change this if you want to redirect somewhere else
-      // start server-side register OAuth flow
-      window.location.href = `/register/google?next=${encodeURIComponent(next)}`;
-    });
-
-    // Mobile menu toggle
-    function toggleMenu() {
-      const nav = document.getElementById('primaryNav');
-      nav.classList.toggle('active');
-    }
-  </script>
-
-  <!-- SECURITY NOTE:
-       Do NOT include Supabase service role keys or sensitive credentials in client-side templates.
-       Keep Supabase keys in your server .env and perform OAuth flows via backend routes such as /register/google and /login/google.
-  -->
 </body>
 </html>

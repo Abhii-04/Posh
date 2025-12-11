@@ -20,13 +20,10 @@
     "passport-google-oauth20": "^2.0.0",
     "serverless-http": "^4.0.0"
   },
-"scripts": {
-  "start": "node backend/local-server.js",      
-  "dev": "nodemon backend/local-server.js",    
-  "vercel:dev": "vercel dev",                  
-  "start:prod": "node server.js"               
-}
-,
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
   "devDependencies": {
     "nodemon": "^3.1.10"
   }
